@@ -2,7 +2,7 @@ import random
 import string
 import requests
 
-
+# initialize variables
 class DU:
     def __init__(self):
         self.num = None
@@ -20,7 +20,10 @@ class DU:
         self.r = None
         self.urls = None
         self.active_urls = None
+        self.scrapping_session = None
+        self.scrapping_r = None
 
+# Find and search dark web urls script
     def http_or_https(self):
         self.num = random.randint(0, 1)
         if self.num == 0:
@@ -82,3 +85,22 @@ class DU:
         for i in range(int(self.urls)):
             self.active_list()
             # print(f"https://{urls_list()}.onion", sep='')
+
+# Web scrapping script
+    def tor_content(self, site_content):
+        try:
+            self.scrapping_session = requests.session()
+            self.scrapping_session.proxies = {'http': 'socks5h://localhost:9050', 'https': 'socks5h://localhost:9050'}
+            self.scrapping_r = self.scrapping_session.get(site_content)
+            print(self.scrapping_r.content)
+        except Exception as err:
+            print("No Content")
+
+    def tor_headers(self, site_headers):
+        try:
+            self.scrapping_session = requests.session()
+            self.scrapping_session.proxies = {'http': 'socks5h://localhost:9050', 'https': 'socks5h://localhost:9050'}
+            self.scrapping_r = self.scrapping_session.get(site_headers)
+            print(self.scrapping_r.headers)
+        except Exception as err:
+            print("No Headers")
