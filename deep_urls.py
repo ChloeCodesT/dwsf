@@ -1,5 +1,4 @@
-import mod_deep_urls as mdu
+import DeepUrls
 
-
-mdu.run_urls()
-# mdu.http_or_https()
+urls = DeepUrls.DU()
+urls.run_urls()

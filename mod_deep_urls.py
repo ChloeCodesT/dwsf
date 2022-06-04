@@ -19,7 +19,7 @@ def ran_num():
 
 def ran_let():
     letters = [i for i in string.ascii_letters]
-    ran_letters = random.sample(letters, random.randint(10, 52))
+    ran_letters = random.sample(letters, random.randint(5, 33))
     return ran_letters
 
 
@@ -30,33 +30,37 @@ def shuffle_list():
 
 
 def urls_list():
+    urls_list.dark_url = ''
     list_of_urls = []
     listing = shuffle_list()
     list_of_urls.append(listing)
-    return "".join(map(str, *list_of_urls))
+    urls_list.dark_url = f'http{http_or_https()}://{"".join(map(str, *list_of_urls))}.onion'
+
 
 
 def test_url():
-    # return "http://s4k4ceiapwwgcm3mkb6e4diqecpo7kvdnfr5gg7sph7jjppqkvwwqtyd.onion/"
-    return "http://A1017QWV16FSDYXrymxIsz81LZhBf2R18711M50n13w619U914N15412a3Ej.onion"
+    return "http://s4k4ceiapwwgcm3mkb6e4diqecpo7kvdnfr5gg7sph7jjppqkvwwqtyd.onion/"
+    # return "http://A1017QWV16FSDYXrymxIsz81LZhBf2R18711M50n13w619U914N15412a3Ej.onion"
 
 
 def tor_url_response():
     try:
         session = requests.session()
         session.proxies = {'http': 'socks5h://localhost:9050', 'https': 'socks5h://localhost:9050'}
-        r = session.get(f'http{http_or_https()}://{urls_list()}.onion/')
+        print(urls_list.dark_url)
+        tor_url_response.r = session.get(str(urls_list()))
         # r = session.get(f'{urls_list()}')
-        return r.status_code
+        # tor_url_response.r = session.get(test_url())
+        return tor_url_response.r.status_code
     except requests.exceptions.RequestException:
-        return None
+        return print('Not a Website')
 
 
 def active_list():
     print(tor_url_response())
     if tor_url_response() == 200:
         list_of_urls = []
-        listing = urls_list()
+        listing = tor_url_response.r
         list_of_urls.append(listing)
         return print("".join(map(str, *list_of_urls)))
 
