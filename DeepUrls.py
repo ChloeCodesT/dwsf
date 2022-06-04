@@ -24,6 +24,7 @@ class DU:
         self.scrapping_r = None
 
 # Find and search dark web urls script
+    # Adds http or https to url to find all variations
     def http_or_https(self):
         self.num = random.randint(0, 1)
         if self.num == 0:
@@ -31,21 +32,25 @@ class DU:
         else:
             return ''
 
+    # Adds a random set of numbers to a list from 1 to 20
     def ran_num(self):
         self.random_number = random.randint(1, 20)
         self.nums_list = random.sample(range(0, self.random_number), self.random_number)
         return self.nums_list
 
+    # Adds a random set of letters to a list from 5 to 33
     def ran_let(self):
         self.letters = [i for i in string.ascii_letters]
         self.ran_letters = random.sample(self.letters, random.randint(5, 33))
         return self.ran_letters
 
+    # Shuffles both ran_num and ran_let lists into one single list
     def shuffle_list(self):
         self.combine_lists = self.ran_num() + self.ran_let()
         self.ran_list = random.sample(self.combine_lists, len(self.combine_lists))
         return self.ran_list
 
+    # Creates a url from shuffled list
     def urls_list(self):
         self.dark_url = ''
         self.list_of_urls = []
@@ -55,11 +60,13 @@ class DU:
         return self.dark_url
         # return "http://s4k4ceiapwwgcm3mkb6e4diqecpo7kvdnfr5gg7sph7jjppqkvwwqtyd.onion/"
 
+    # To test an actual active url
     def test_url(self):
         self.test_url = "http://s4k4ceiapwwgcm3mkb6e4diqecpo7kvdnfr5gg7sph7jjppqkvwwqtyd.onion/"
         # self.test_url = "http://A1017QWV16FSDYXrymxIsz81LZhBf2R18711M50n13w619U914N15412a3Ej.onion"
         return self.test_url
 
+    # Gets url response. If it doesn't return a response outputs Not a Website
     def tor_url_response(self):
         try:
             self.session = requests.session()
@@ -72,6 +79,8 @@ class DU:
         except requests.exceptions.RequestException:
             return print('Not a Website')
 
+    # If url status of 200 prints out status code and url
+        # Need to tweak this to add active url to a list
     def active_list(self):
         print(self.tor_url_response())
         if self.tor_url_response() == 200:
@@ -80,6 +89,7 @@ class DU:
             self.active_urls.append(self.listing)
             return print("".join(map(str, *self.active_urls)))
 
+    # Runs the whole program
     def run_urls(self):
         self.urls = input('Enter amount of Urls: ')
         for i in range(int(self.urls)):
@@ -87,6 +97,7 @@ class DU:
             # print(f"https://{urls_list()}.onion", sep='')
 
 # Web scrapping script
+    # Outputs content of active url
     def tor_content(self, site_content):
         try:
             self.scrapping_session = requests.session()
@@ -96,6 +107,7 @@ class DU:
         except Exception as err:
             print("No Content")
 
+    # Outputs headers of active url
     def tor_headers(self, site_headers):
         try:
             self.scrapping_session = requests.session()
